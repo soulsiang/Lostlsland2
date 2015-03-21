@@ -4,10 +4,7 @@ using System.Collections;
 
 public class PlayerStatus : MonoBehaviour {
 
-	[SerializeField]
-	Slider hpSlider;
-	[SerializeField]
-	Animator cameraAnim;
+	[SerializeField] Slider hpSlider;
 
 	public static float maxHP = 100f;
 	public static float hp;
@@ -24,8 +21,6 @@ public class PlayerStatus : MonoBehaviour {
 
 			if (hp <= 0f) {
 				isDied = true;
-				cameraAnim.SetTrigger("dying");
-				cameraAnim.SetBool("died", true);
 				StartCoroutine("GameOver");
 			}
 		}
