@@ -7,6 +7,7 @@ namespace Player {
 	public class PlayerBackpack : MonoBehaviour {
 
 		[SerializeField] PlayerE playerE;
+		[SerializeField] MeshRenderer knife;
 		[SerializeField] Light light;
 		string[] itemSlot;
 		Sprite[] itemIcon;
@@ -65,6 +66,12 @@ namespace Player {
 						PlayerStatus.AddHP(50);
 						itemSlot [index] = null;
 						Debug.Log ("You feel better. (hp+50)");
+					break;
+					case "Knife":
+						PlayerActions.ableToUse = true;
+						knife.enabled = true;
+						itemSlot [index] = null;
+						Debug.Log ("You can use knife now.");
 					break;
 					case "Torch":
 						light.intensity = 10;
