@@ -7,7 +7,7 @@ namespace Player {
 	public class PlayerBackpack : MonoBehaviour {
 
 		[SerializeField] PlayerE playerE;
-		[SerializeField] MeshRenderer knife;
+		[SerializeField] Transform knifeModel;
 		[SerializeField] Light light;
 		string[] itemSlot;
 		Sprite[] itemIcon;
@@ -58,6 +58,8 @@ namespace Player {
 			}
 		}
 
+		GameObject obj;
+
 		void UseItem (int index) {
 			if (itemSlot [index] != null) {
 				Debug.Log ("Use " + itemSlot [index]);
@@ -68,31 +70,48 @@ namespace Player {
 						Debug.Log ("You feel better. (hp+50)");
 					break;
 					case "Knife":
-						PlayerActions.ableToUse = true;
-						knife.enabled = true;
+						PlayerActions.ableToUseWeapon = true;
+						knifeModel.GetComponent<MeshRenderer> ().enabled = true;
 						itemSlot [index] = null;
 						Debug.Log ("You can use knife now.");
 					break;
 					case "Torch":
-						light.intensity = 10;
-						itemSlot [index] = null;
-						Destroy (GameObject.Find ("Forest"));
-						Debug.Log ("Rise and shine.");
+						obj = ValidatePuzzle(itemSlot [index]);
+						if(obj != null) {
+							Destroy(obj);
+							light.intensity = 8;
+							itemSlot [index] = null;
+							Debug.Log ("Rise and shine.");
+						}
 					break;
 					case "Keycard":
-						Transform target = playerE.ShootIt("Puzzle");
-						if(target != null) {
-							if(target.GetComponent<Puzzle>().Solve(itemSlot [index])) {
-								itemSlot [index] = null;
-								Destroy(target.gameObject);
-								Debug.Log("You solve "+target.name+" puzzle!");
-							}
-							else Debug.Log ("Can't use "+itemSlot [index]+" here.");
+						obj = ValidatePuzzle(itemSlot [index]);
+						if(obj != null) {
+							obj.GetComponent<Animator>().SetTrigger("unlock");
+							obj.GetComponent<Animator>().SetBool("open", true);
+							itemSlot [index] = null;
+							Debug.Log ("You shall pass!");
 						}
 					break;
 				}
 				RenderItemIcon ();
 			}
+		}
+
+		GameObject ValidatePuzzle (string item) {
+			Transform target = playerE.ShootIt("Puzzle");
+			if(target != null) {
+				if(target.GetComponent<Puzzle>().Solve(item)) {
+					Debug.Log("You solve "+target.name+" puzzle!");
+					return target.gameObject;
+				}
+				else {
+					Debug.Log ("Can't use "+item+" here.");
+					return null;
+				}
+			}
+			Debug.Log ("There's no target.");
+			return null;
 		}
 	}
 }

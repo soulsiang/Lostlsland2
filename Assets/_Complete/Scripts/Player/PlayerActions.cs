@@ -7,11 +7,11 @@ namespace Player {
 
 		[SerializeField] Animator weaponAnim;
 		[SerializeField] FirstPersonController fpsCtrl;
-		public static bool ableToUse = false;
+		public static bool ableToUseWeapon = false;
 		bool atkCoolDown = false;
 
 		void Update () {
-			if (ableToUse) {
+			if (ableToUseWeapon) {
 				if (!atkCoolDown && Input.GetButtonDown ("Fire1")) {
 					StartCoroutine ("AttackCoolDown");
 					weaponAnim.SetTrigger ("slash");
