@@ -7,6 +7,10 @@ namespace Player {
 		[SerializeField] PlayerBackpack backpack;
 		public float rayLength = 3f;
 
+		void Start () {
+			Cursor.visible = false;
+		}
+
 		void Update () {
 			Debug.DrawRay(transform.Find ("Camera").position, transform.Find ("Camera").forward * rayLength, Color.red);
 
