@@ -72,6 +72,7 @@ namespace Player {
 					case "Knife":
 						PlayerActions.ableToUseWeapon = true;
 						knifeModel.GetComponent<MeshRenderer> ().enabled = true;
+						knifeModel.parent.GetComponent<PlayerKillEnemy>().enabled = true;
 						itemSlot [index] = null;
 						Debug.Log ("You can use knife now.");
 					break;

@@ -12,7 +12,7 @@ namespace Player {
 		}
 
 		void Update () {
-			Debug.DrawRay(transform.Find ("Camera").position, transform.Find ("Camera").forward * rayLength, Color.red);
+//			Debug.DrawRay(transform.Find ("Camera").position, transform.Find ("Camera").forward * rayLength, Color.red);
 
 			if (Input.GetKeyDown (KeyCode.E)) {
 				Transform target = ShootIt ("Item");

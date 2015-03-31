@@ -6,19 +6,20 @@ public class EnemyFollow : MonoBehaviour {
 
 	[SerializeField] Animator anim;
 	[SerializeField] NavMeshAgent navMeshAgent;
-	bool runningMan = false;
+
 	bool isAttacking = false;
-	int attackType = 0;
 	bool isDead = false;
+	public int hp = 5;
+	public int atk = 8;
 	public bool isDying = false;
+	public int attackType = 0; // 0=slap, 1=bite
+	public bool runningMan = false;
 	public float distanceToPlayer = 0f;
 
 	Transform target;
 	void Start () {
-		anim.SetInteger ("idle", Random.Range (0, 4));
+		anim.SetInteger ("idle", Random.Range (0, 3));
 		target = GameObject.Find ("Player").transform;
-		runningMan = (Random.Range (0, 2)==1)?true:false;
-		attackType = Random.Range (0, 2);
 	}
 
 	void FixedUpdate () {
@@ -26,11 +27,12 @@ public class EnemyFollow : MonoBehaviour {
 
 		if (!isDead && isDying) {
 			isDead = true;
+			transform.tag = "DeadBody";
 			anim.SetTrigger("dead");
 			anim.SetBool("walk", false);
 			anim.SetBool("run", false);
 			anim.SetInteger("idle", attackType+1);
-			target.GetComponent<FirstPersonController> ().enabled = true;
+			FreezePlayer(true);
 		}
 		else if (!isDead) {
 			if (!isAttacking && Vector3.Distance (transform.position, target.position) <= 2.5f) {
@@ -84,11 +86,11 @@ public class EnemyFollow : MonoBehaviour {
 
 	IEnumerator WaitThenEscape (float secs) {
 		navMeshAgent.enabled = false;
-		target.GetComponent<FirstPersonController>().enabled = false;
+		FreezePlayer(false);
 		yield return new WaitForSeconds (secs);
 		isAttacking = false;
 		navMeshAgent.enabled = true;
-		target.GetComponent<FirstPersonController> ().enabled = true;
+		FreezePlayer(true);
 	}
 
 	void Tracing () {
@@ -101,6 +103,24 @@ public class EnemyFollow : MonoBehaviour {
 		}
 	}
 
+	void Attack (int type) {
+		PlayerStatus.AddHP (-atk*type);
+		GameObject.Find ("Player").SendMessage ("SFX", type);
+	}
+
+	void UnderAttack () {
+		if (hp - 1 <= 0) {
+			hp = 0;
+			isDying = true;
+			SendMessage("SFX", 4);
+		}
+		else {
+			hp --;
+			anim.SetTrigger("hit");
+			FreezePlayer(true);
+		}
+	}
+
 	void OnTriggerEnter (Collider other) {
 		if (other.tag == "Player") {
 			anim.SetBool("walk", true);
@@ -108,5 +128,9 @@ public class EnemyFollow : MonoBehaviour {
 				anim.SetBool ("run", true);
 			}
 		}
+	}
+
+	void FreezePlayer (bool b) {
+		target.GetComponent<FirstPersonController>().enabled = b;
 	}
 }

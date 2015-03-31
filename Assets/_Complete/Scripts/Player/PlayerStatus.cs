@@ -13,11 +13,12 @@ public class PlayerStatus : MonoBehaviour {
 
 	void Start () {
 		hp = maxHP;
+		hpSlider.maxValue = maxHP;
 	}
 
 	void FixedUpdate () {
 		if (!isDied) {
-			hpSlider.value = hp / maxHP;
+			hpSlider.value = hp;
 
 			if (hp <= 0f) {
 				isDied = true;
