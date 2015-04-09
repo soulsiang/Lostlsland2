@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: b5930b0f62466a74a9b9903e7cf440da
-timeCreated: 1428403778
+guid: ec954d0e451bd9141bb91647d9902325
+timeCreated: 1427819871
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Pyramid
+    4300000: WoodSigns
     9500000: //RootNode
   materials:
     importMaterials: 1
