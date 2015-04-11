@@ -6,17 +6,23 @@ using UnityStandardAssets.Characters.FirstPerson;
 namespace Player {
 	public class PlayerContacts : MonoBehaviour {
 
-		[SerializeField] Text message;
+		Text message;
 		[SerializeField] FirstPersonController fpsCtrl;
 
 		bool startFadeOut = false;
 		float t = 0;
 
+		void Start () {
+			message = GameObject.Find ("Message").GetComponent<Text> ();
+		}
+
 		void FixedUpdate () {
-			if(startFadeOut)
+			if(startFadeOut) {
 				message.color = Color.Lerp (Color.clear, Color.white, t);
-			else
+			}
+			else {
 				message.color = Color.Lerp (Color.white, Color.clear, t);
+			}
 
 			if (t < 1) {
 				t += Time.deltaTime;

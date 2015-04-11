@@ -6,13 +6,18 @@ using System.Collections.Generic;
 namespace Player {
 	public class PlayerBackpack : MonoBehaviour {
 
-		[SerializeField] PlayerE playerE;
-		[SerializeField] Transform knifeModel;
-		[SerializeField] Light light;
+		PlayerE playerE;
+		Transform knifeModel;
+		Light light;
 		string[] itemSlot;
 		Sprite[] itemIcon;
 
 		void Start () {
+
+			playerE = GameObject.Find ("Player").GetComponent<PlayerE> ();
+			knifeModel = GameObject.Find ("Player").transform.Find ("Camera").Find ("Weapon").Find ("Model");
+			light = GameObject.Find ("Player").transform.Find ("Light").GetComponent<Light>();
+
 			itemSlot = new string[3];
 			itemIcon = Resources.LoadAll<Sprite>("Item");
 		}
@@ -47,11 +52,13 @@ namespace Player {
 				string str = itemSlot[i];
 				if(str == null) {
 					transform.Find ("Slot"+(i+1)).Find ("Image").GetComponent<Image>().sprite = null;
+					transform.Find ("Slot"+(i+1)).Find ("Image").GetComponent<Image>().color = Color.clear;
 				}
 				else {
 					foreach (Sprite icon in itemIcon) {
 						if(icon.name == str) {
 							transform.Find ("Slot"+(i+1)).Find ("Image").GetComponent<Image>().sprite = icon;
+							transform.Find ("Slot"+(i+1)).Find ("Image").GetComponent<Image>().color = Color.white;
 						}
 					}
 				}

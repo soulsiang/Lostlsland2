@@ -4,10 +4,11 @@ using System.Collections;
 namespace Player {
 	public class PlayerE : MonoBehaviour {
 
-		[SerializeField] PlayerBackpack backpack;
+		PlayerBackpack backpack;
 		public float rayLength = 3f;
 
 		void Start () {
+			backpack = GameObject.Find ("PlayerBackpack").GetComponent<PlayerBackpack> ();
 			Cursor.visible = false;
 		}
 
