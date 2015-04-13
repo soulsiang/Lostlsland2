@@ -6,6 +6,7 @@ using System.Collections.Generic;
 namespace Player {
 	public class PlayerBackpack : MonoBehaviour {
 
+		Message msg;
 		PlayerE playerE;
 		Transform knifeModel;
 		Light light;
@@ -14,6 +15,7 @@ namespace Player {
 
 		void Start () {
 
+			msg = GameObject.Find ("Message").GetComponent<Message> ();
 			playerE = GameObject.Find ("Player").GetComponent<PlayerE> ();
 			knifeModel = GameObject.Find ("Player").transform.Find ("Camera").Find ("Weapon").Find ("Model");
 			light = GameObject.Find ("Player").transform.Find ("Light").GetComponent<Light>();
@@ -39,10 +41,10 @@ namespace Player {
 			else if(itemSlot[1]==null)itemSlot[1] = name;
 			else if(itemSlot[2]==null)itemSlot[2] = name;
 			else {
-				Debug.Log ("Your backpack is full!");
+				msg.ShowMessageForSeconds("你帶不了更多的東西了。", 2f);
 				return false;
 			}
-			Debug.Log ("Get "+itemSlot[0]);
+			msg.ShowMessageForSeconds("取得 "+name+" 。", 2f);
 			RenderItemIcon ();
 			return true;
 		}
@@ -74,31 +76,23 @@ namespace Player {
 					case "Healpack":
 						PlayerStatus.AddHP(50);
 						itemSlot [index] = null;
-						Debug.Log ("You feel better. (hp+50)");
 					break;
 					case "Knife":
 						PlayerActions.ableToUseWeapon = true;
 						knifeModel.GetComponent<MeshRenderer> ().enabled = true;
 						knifeModel.parent.GetComponent<PlayerKillEnemy>().enabled = true;
 						itemSlot [index] = null;
-						Debug.Log ("You can use knife now.");
 					break;
 					case "Torch":
-						obj = ValidatePuzzle(itemSlot [index]);
-						if(obj != null) {
-							Destroy(obj);
-							light.intensity = 8;
-							itemSlot [index] = null;
-							Debug.Log ("Rise and shine.");
-						}
-					break;
 					case "Keycard":
+					case "Axe":
 						obj = ValidatePuzzle(itemSlot [index]);
 						if(obj != null) {
+							if(itemSlot [index] == "Torch")light.intensity = 8;
+							msg.ShowMessageForSeconds(obj.GetComponent<Puzzle>().ResultMsg, obj.GetComponent<Puzzle>().Duration);
 							obj.GetComponent<Animator>().SetTrigger("unlock");
-							obj.GetComponent<Animator>().SetBool("open", true);
+							PlayerPrefs.SetInt(itemSlot [index]+"_Puzzle", 1);
 							itemSlot [index] = null;
-							Debug.Log ("You shall pass!");
 						}
 					break;
 				}
@@ -110,15 +104,13 @@ namespace Player {
 			Transform target = playerE.ShootIt("Puzzle");
 			if(target != null) {
 				if(target.GetComponent<Puzzle>().Solve(item)) {
-					Debug.Log("You solve "+target.name+" puzzle!");
 					return target.gameObject;
 				}
 				else {
-					Debug.Log ("Can't use "+item+" here.");
+					msg.ShowMessageForSeconds(item+" 好像不是用在這裡的...", 2f);
 					return null;
 				}
 			}
-			Debug.Log ("There's no target.");
 			return null;
 		}
 	}

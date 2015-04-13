@@ -43,7 +43,7 @@ public class PlayerStatus : MonoBehaviour {
 	}
 
 	IEnumerator GameOver () {
-		yield return new WaitForSeconds(3);
+		yield return new WaitForSeconds(3f);
 		Application.LoadLevel (0);
 	}
 }

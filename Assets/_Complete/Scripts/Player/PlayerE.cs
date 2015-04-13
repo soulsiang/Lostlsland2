@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 namespace Player {
 	public class PlayerE : MonoBehaviour {
 
+		Message message;
 		PlayerBackpack backpack;
 		public float rayLength = 3f;
 
 		void Start () {
 			backpack = GameObject.Find ("PlayerBackpack").GetComponent<PlayerBackpack> ();
+			message = GameObject.Find ("Message").GetComponent<Message> ();
 			Cursor.visible = false;
 		}
 
@@ -17,8 +20,22 @@ namespace Player {
 
 			if (Input.GetKeyDown (KeyCode.E)) {
 				Transform target = ShootIt ("Item");
-				if(target != null) { // pick up item
-					if(backpack.GetItem(target.transform.name))Destroy (target.transform.gameObject);
+				// pick up item
+				if(target != null && backpack.GetItem(target.transform.name)) {
+						Destroy (target.transform.gameObject);
+				}
+
+				// solve puzzle
+				target = ShootIt ("Puzzle");
+				if(target != null) {
+					if (target.tag == "Puzzle") {
+						Puzzle puz = target.GetComponent<Puzzle>();
+						bool isDone = puz.IsDone;
+						bool isEvent = puz.IsEvent;
+						if(!isDone) {
+							message.ShowMessageForSeconds(puz.QuestMsg, puz.Duration);
+						}
+					}
 				}
 			}
 		}
