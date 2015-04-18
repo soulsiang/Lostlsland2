@@ -3,19 +3,8 @@ guid: eaffe6b1121d9164baf3d3a129b7e480
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: Axe_B_Axe_Difuse.png.001
-    100004: wood_A_Axe_Difuse.png.001
-    400000: //RootNode
-    400002: Axe_B_Axe_Difuse.png.001
-    400004: wood_A_Axe_Difuse.png.001
-    2300000: Axe_B_Axe_Difuse.png.001
-    2300002: wood_A_Axe_Difuse.png.001
-    3300000: Axe_B_Axe_Difuse.png.001
-    3300002: wood_A_Axe_Difuse.png.001
     4300000: Axe_B_Axe_Difuse.png.001
     4300002: wood_A_Axe_Difuse.png.001
-    11100000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
