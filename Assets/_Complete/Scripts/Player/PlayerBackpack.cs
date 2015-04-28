@@ -6,6 +6,7 @@ using System.Collections.Generic;
 namespace Player {
 	public class PlayerBackpack : MonoBehaviour {
 
+		bool isBinded = false;
 		Message msg;
 		PlayerE playerE;
 		Transform knifeModel;
@@ -13,8 +14,8 @@ namespace Player {
 		string[] itemSlot;
 		Sprite[] itemIcon;
 
-		void Start () {
-
+		void Bind () {
+			isBinded = true;
 			msg = GameObject.Find ("Message").GetComponent<Message> ();
 			playerE = GameObject.Find ("Player").GetComponent<PlayerE> ();
 			knifeModel = GameObject.Find ("Player").transform.Find ("Camera").Find ("Weapon").Find ("Model");
@@ -25,14 +26,16 @@ namespace Player {
 		}
 
 		void Update () {
-			if (Input.GetKeyDown (KeyCode.Alpha1)) {
-				UseItem (0);
-			}
-			if (Input.GetKeyDown (KeyCode.Alpha2)) {
-				UseItem (1);
-			}
-			if (Input.GetKeyDown (KeyCode.Alpha3)) {
-				UseItem (2);
+			if (isBinded) {
+				if (Input.GetKeyDown (KeyCode.Alpha1)) {
+					UseItem (0);
+				}
+				if (Input.GetKeyDown (KeyCode.Alpha2)) {
+					UseItem (1);
+				}
+				if (Input.GetKeyDown (KeyCode.Alpha3)) {
+					UseItem (2);
+				}
 			}
 		}
 		

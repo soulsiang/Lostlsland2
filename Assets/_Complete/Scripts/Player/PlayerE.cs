@@ -10,6 +10,9 @@ namespace Player {
 		public float rayLength = 3f;
 
 		void Start () {
+			GameObject.Find ("PlayerCanvas").GetComponent<Canvas> ().enabled = true;
+			GameObject.Find ("PlayerBackpack").SendMessage ("Bind");
+
 			backpack = GameObject.Find ("PlayerBackpack").GetComponent<PlayerBackpack> ();
 			message = GameObject.Find ("Message").GetComponent<Message> ();
 			Cursor.visible = false;
