@@ -15,20 +15,26 @@ public class LandingPageHandler : MonoBehaviour {
 		forest.Play ();
 		sea.Play ();
 		beachTheme.TransitionTo (.1f);
-		boatAnim.SetTrigger ("landing");
 		playerCamera.GetComponent<Camera> ().enabled = true;
 		playerCamera.GetComponent<AudioListener> ().enabled = true;
-		Invoke ("SpawnPlayer", 5f);
+
+		string spawnPointId = PlayerPrefs.GetString ("SpawnPoint");
+		if (spawnPointId == "") {
+			boatAnim.SetTrigger ("landing");
+			Invoke ("SpawnPlayer", 5f);
+		} else {
+			player.position = GameObject.Find (spawnPointId).transform.position;
+			player.rotation = GameObject.Find (spawnPointId).transform.rotation;
+			Invoke ("SpawnPlayer", .01f);
+		}
 	}
 
 	void SpawnPlayer () {
 		playerCamera.GetComponent<Camera> ().enabled = false;
 		playerCamera.GetComponent<AudioListener> ().enabled = false;
-//		GameObject player = (GameObject)Instantiate (playerPrefab, playerCamera.position, playerCamera.rotation);
-//		player.name = "Player";
 		player.gameObject.SetActive (true);
 		player.parent = GameObject.Find ("PlayerCanvas").transform.parent;
-		RenderSettings.fogDensity = 0.02f;
+		RenderSettings.fogDensity = 0.01f;
 		Destroy (GameObject.Find ("StartCamera"));
 		Destroy (GameObject.Find ("StartCanvas"));
 		Destroy (GameObject.Find ("PreviousCamera"));
