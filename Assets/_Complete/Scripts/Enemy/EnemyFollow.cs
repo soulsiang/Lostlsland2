@@ -17,9 +17,9 @@ public class EnemyFollow : MonoBehaviour {
 	public float distanceToPlayer = 0f;
 
 	Transform target;
-	void Start () {
+	void Bind (GameObject other) {
 		anim.SetInteger ("idle", Random.Range (0, 3));
-		target = GameObject.Find ("Player").transform;
+		target = other.transform;
 	}
 
 	void FixedUpdate () {
@@ -35,6 +35,9 @@ public class EnemyFollow : MonoBehaviour {
 			FreezePlayer(true);
 		}
 		else if (!isDead) {
+
+			if (target==null)return ;
+
 			if (!isAttacking && Vector3.Distance (transform.position, target.position) <= 2.5f) {
 				navMeshAgent.speed = 0f;
 				if (
@@ -42,6 +45,7 @@ public class EnemyFollow : MonoBehaviour {
 					anim.GetCurrentAnimatorStateInfo (0).IsName ("run")
 					) {
 					isAttacking = true;
+					transform.rotation = Quaternion.Euler(target.rotation.eulerAngles + new Vector3(0f, 180f, 0f));
 					if (attackType == 0) {
 						anim.SetTrigger ("attack");
 						StartCoroutine (WaitThenEscape(2f));
@@ -56,7 +60,6 @@ public class EnemyFollow : MonoBehaviour {
 				}
 			}
 			else if (!isAttacking && anim.GetBool ("walk")) {
-
 				if (anim.GetCurrentAnimatorStateInfo (0).IsName ("walk")) {
 					navMeshAgent.speed = 1f;
 					distanceToPlayer = 1.8f;
@@ -99,7 +102,7 @@ public class EnemyFollow : MonoBehaviour {
 			navMeshAgent.enabled = false;
 		} else {
 			navMeshAgent.SetDestination(target.TransformPoint(Vector3.forward * distanceToPlayer));
-			transform.LookAt(target);
+			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(new Vector3( target.rotation.x, 0f, target.rotation.y)), Time.deltaTime * .1f);
 		}
 	}
 
@@ -123,6 +126,7 @@ public class EnemyFollow : MonoBehaviour {
 
 	void OnTriggerEnter (Collider other) {
 		if (other.tag == "Player") {
+			Bind (other.gameObject);
 			anim.SetBool("walk", true);
 			if(runningMan) {
 				anim.SetBool ("run", true);
