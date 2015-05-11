@@ -4,6 +4,6 @@ using System.Collections;
 public class SaveSpot : MonoBehaviour {
 
 	void OnTriggerEnter () {
-		PlayerPrefs.SetString ("SpawnPoint", transform.GetChild (0).name);
+		PlayerPrefs.SetString ("SpawnPoint", transform.name);
 	}
 }
