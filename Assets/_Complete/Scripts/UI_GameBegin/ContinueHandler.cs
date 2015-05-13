@@ -7,7 +7,7 @@ public class ContinueHandler : MonoBehaviour {
 	[SerializeField] Animator maskAnim;
 
 	void Start () {
-		if (PlayerPrefs.GetString ("SpawnPoint") != "") {
+		if (PlayerPrefs.GetString ("SpawnSpot") != "") {
 			GetComponent<Button>().interactable = true;
 			transform.Find ("Text").GetComponent<Text>().color = new Color(.48f, 0f, 0f);
 		}
@@ -20,6 +20,6 @@ public class ContinueHandler : MonoBehaviour {
 
 	void TurnOnContinueThings () {
 		maskAnim.SetBool ("show", false);
-		GameObject.Find ("Landing").SendMessage ("TurnOnLandingThings");
+		GameManager.CheckState (GameManager.State.Continue);
 	}
 }

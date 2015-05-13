@@ -25,7 +25,7 @@ namespace Player {
 				Transform target = ShootIt ("Item");
 				// pick up item
 				if(target != null && backpack.GetItem(target.transform.name)) {
-						Destroy (target.transform.gameObject);
+					Destroy (target.transform.gameObject);
 				}
 
 				// solve puzzle

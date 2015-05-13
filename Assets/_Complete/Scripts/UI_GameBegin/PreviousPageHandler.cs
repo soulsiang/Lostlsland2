@@ -6,7 +6,6 @@ public class PreviousPageHandler : MonoBehaviour {
 
 	[SerializeField] Animator maskAnim;
 	[SerializeField] Animator cutSceneAnim;
-	[SerializeField] AudioMixerSnapshot previousTheme;
 
 	bool previousStart = false;
 
@@ -21,14 +20,12 @@ public class PreviousPageHandler : MonoBehaviour {
 		GetComponent<Camera> ().enabled = true;
 		GetComponent<AudioListener> ().enabled = true;
 		GetComponent<AudioSource> ().enabled = true;
-		previousTheme.TransitionTo (.5f);
 		cutSceneAnim.SetTrigger ("murmur");
 	}
 
 	void TurnOffPreviousThings () {
 
-		// turn on landing things
-		GameObject.Find ("Landing").SendMessage ("TurnOnLandingThings");
+		GameManager.CheckState (GameManager.State.Landing);
 
 		// turn off preivous things
 		GetComponent<Camera> ().enabled = false;

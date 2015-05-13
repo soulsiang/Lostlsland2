@@ -13,8 +13,7 @@ public class StartPageHandler : MonoBehaviour {
 
 	void TurnOffStartThings () {
 
-		// turn on preivous things
-		GameObject.Find ("PreviousCamera").SendMessage ("TurnOnPreviousThings");
+		GameManager.CheckState (GameManager.State.Previous);
 
 		// turn off start things
 		GetComponent<Camera> ().enabled = false;
