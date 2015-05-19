@@ -52,24 +52,6 @@ namespace Player {
 			return true;
 		}
 
-		void RenderItemIcon () {
-			for (int i=0;i<itemSlot.Length;i++) {
-				string str = itemSlot[i];
-				if(str == null) {
-					transform.Find ("Slot"+(i+1)).Find ("Image").GetComponent<Image>().sprite = null;
-					transform.Find ("Slot"+(i+1)).Find ("Image").GetComponent<Image>().color = Color.clear;
-				}
-				else {
-					foreach (Sprite icon in itemIcon) {
-						if(icon.name == str) {
-							transform.Find ("Slot"+(i+1)).Find ("Image").GetComponent<Image>().sprite = icon;
-							transform.Find ("Slot"+(i+1)).Find ("Image").GetComponent<Image>().color = Color.white;
-						}
-					}
-				}
-			}
-		}
-
 		GameObject obj;
 
 		void UseItem (int index) {
@@ -100,6 +82,25 @@ namespace Player {
 					break;
 				}
 				RenderItemIcon ();
+			}
+		}
+
+		
+		void RenderItemIcon () {
+			for (int i=0;i<itemSlot.Length;i++) {
+				string str = itemSlot[i];
+				if(str == null) {
+					transform.Find ("Slot"+(i+1)).Find ("Image").GetComponent<Image>().sprite = null;
+					transform.Find ("Slot"+(i+1)).Find ("Image").GetComponent<Image>().color = Color.clear;
+				}
+				else {
+					foreach (Sprite icon in itemIcon) {
+						if(icon.name == str) {
+							transform.Find ("Slot"+(i+1)).Find ("Image").GetComponent<Image>().sprite = icon;
+							transform.Find ("Slot"+(i+1)).Find ("Image").GetComponent<Image>().color = Color.white;
+						}
+					}
+				}
 			}
 		}
 

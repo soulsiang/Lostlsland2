@@ -4,12 +4,16 @@ using System.Collections;
 
 public class Puzzle : MonoBehaviour {
 
+	[SerializeField] string puzzleName;
 	[SerializeField] bool isDone = false;
 	[SerializeField] bool isEvent = false;
-	[SerializeField] string questItem = "(need no item when is event)";
-	[SerializeField] string questMsg;
-	[SerializeField] string resultMsg;
+	[SerializeField] string questItem = "";
+	[SerializeField] string questMsg = "";
+	[SerializeField] string resultMsg = "";
 	[SerializeField] float duration = 3f;
+	public string PuzzleName {
+		get { return puzzleName; }
+	}
 	public bool IsDone {
 		get { return isDone; }
 	}
@@ -32,23 +36,23 @@ public class Puzzle : MonoBehaviour {
 	Animator anim;
 
 	void Start () {
-
-		Debug.Log (questItem + "_Puzzle:" + PlayerPrefs.GetInt (questItem + "_Puzzle"));
-		// check is puzzle already been solved?
-		if (PlayerPrefs.GetInt (questItem + "_Puzzle") == 1) {
-			isDone = true;
-			anim = GetComponent<Animator> ();
-			anim.SetBool ("open", true);
-			Destroy (GameObject.Find (questItem));
-		}
+		anim = GetComponent<Animator> ();
+		puzzleName = transform.parent.name;
 	}
 
 	public bool Solve (string item) {
-		if (item == questItem) {
+		if (!isDone && item == questItem) {
 			isDone = true;
 			return true;
-		} else {
+		}
+		else {
 			return false;
 		}
+	}
+
+	public void DonePuzzle () {
+		isDone = true;
+		anim.SetBool ("open", true);
+		Destroy (GameObject.Find (questItem));
 	}
 }
