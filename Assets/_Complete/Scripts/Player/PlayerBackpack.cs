@@ -47,9 +47,20 @@ namespace Player {
 				msg.ShowMessageForSeconds("你帶不了更多的東西了。", 2f);
 				return false;
 			}
-			msg.ShowMessageForSeconds("取得 "+name+" 。", 2f);
+			msg.ShowMessageForSeconds("取得"+EN_To_TW(name)+" 。", 2f);
 			RenderItemIcon ();
 			return true;
+		}
+
+		string EN_To_TW (string en) {
+			switch (en) {
+			case "Healpack": return "補血包";
+			case "Knife": return "水果刀";
+			case "Torch": return "火把";
+			case "Keycard": return "門禁卡";
+			case "Axe": return "斧頭";
+			}
+			return "";
 		}
 
 		GameObject obj;

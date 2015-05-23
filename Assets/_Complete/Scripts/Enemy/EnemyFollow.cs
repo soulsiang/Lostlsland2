@@ -20,6 +20,7 @@ public class EnemyFollow : MonoBehaviour {
 	void Bind (GameObject other) {
 		anim.SetInteger ("idle", Random.Range (0, 3));
 		target = other.transform;
+		runningMan = (Random.Range (0, 2)==1) ? true : false;
 	}
 
 	void FixedUpdate () {
@@ -116,6 +117,8 @@ public class EnemyFollow : MonoBehaviour {
 			hp = 0;
 			isDying = true;
 			SendMessage("SFX", 4);
+
+			Destroy (gameObject, 3f);
 		}
 		else {
 			hp --;
@@ -131,6 +134,14 @@ public class EnemyFollow : MonoBehaviour {
 			if(runningMan) {
 				anim.SetBool ("run", true);
 			}
+		}
+	}
+
+	void OnTriggerExit (Collider other) {
+		if (other.tag == "Player") {
+			target = null;
+			anim.SetBool("walk", false);
+			anim.SetBool("run", false);
 		}
 	}
 

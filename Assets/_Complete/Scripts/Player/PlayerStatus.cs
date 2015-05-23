@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class PlayerStatus : MonoBehaviour {
 
 	[SerializeField] Slider hpSlider;
+	[SerializeField] FirstPersonController fpsCtrler;
+	[SerializeField] Animator cameraAnim;
+	[SerializeField] Animator maskAnim;
 
 	public static float maxHP = 100f;
 	public static float hp;
@@ -43,7 +47,12 @@ public class PlayerStatus : MonoBehaviour {
 	}
 
 	IEnumerator GameOver () {
-		yield return new WaitForSeconds(3f);
+		fpsCtrler.enabled = false;
+		cameraAnim.enabled = true;
+		yield return new WaitForSeconds(.5f);
+		cameraAnim.SetBool ("die", true);
+		maskAnim.SetBool ("show", true);
+		yield return new WaitForSeconds (3f);
 		Application.LoadLevel (0);
 	}
 }
