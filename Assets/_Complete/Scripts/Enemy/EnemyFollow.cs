@@ -146,6 +146,7 @@ public class EnemyFollow : MonoBehaviour {
 	}
 
 	void FreezePlayer (bool b) {
-		target.GetComponent<FirstPersonController>().enabled = b;
+		if (target != null)
+			target.GetComponent<FirstPersonController>().enabled = b;
 	}
 }
