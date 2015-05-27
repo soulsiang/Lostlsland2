@@ -1,16 +1,27 @@
 fileFormatVersion: 2
-guid: b5930b0f62466a74a9b9903e7cf440da
-timeCreated: 1428403778
+guid: 64b5a5b999332244ca4b528935337ce2
+timeCreated: 1432727815
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
     100000: //RootNode
+    100002: PyramidA
+    100004: PyramidB
+    100006: PyramidC
     400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Pyramid
-    9500000: //RootNode
+    400002: PyramidA
+    400004: PyramidB
+    400006: PyramidC
+    2300000: PyramidA
+    2300002: PyramidB
+    2300004: PyramidC
+    3300000: PyramidA
+    3300002: PyramidB
+    3300004: PyramidC
+    4300000: PyramidA
+    4300002: PyramidC
+    4300004: PyramidB
   materials:
     importMaterials: 1
     materialName: 0
@@ -64,7 +75,7 @@ ModelImporter:
     feetSpacing: 0
     rootMotionBoneName: 
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 0
   additionalBone: 0
   userData: 
   assetBundleName: 
